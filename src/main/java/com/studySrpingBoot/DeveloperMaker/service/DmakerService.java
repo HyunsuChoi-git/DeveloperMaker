@@ -1,5 +1,6 @@
 package com.studySrpingBoot.DeveloperMaker.service;
 
+import com.studySrpingBoot.DeveloperMaker.dto.CreateDeveloper;
 import com.studySrpingBoot.DeveloperMaker.entity.Developer;
 import com.studySrpingBoot.DeveloperMaker.repository.DeveloperRepository;
 import com.studySrpingBoot.DeveloperMaker.type.DeveloperLevel;
@@ -7,9 +8,8 @@ import com.studySrpingBoot.DeveloperMaker.type.DeveloperSkillType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 @Service
 @RequiredArgsConstructor //@Autowierd할 필요 없이, 생성자에 주입을 받는 방식. 생성자 자동생성)
@@ -20,7 +20,7 @@ public class DmakerService {
     private final DeveloperRepository developerRepository;
 
     @Transactional
-    public void createDeveloper(){
+    public void createDeveloper(CreateDeveloper.Request request){
 
             //트랜잭션 시작 business logic start
             Developer developer = Developer.builder()
@@ -33,9 +33,8 @@ public class DmakerService {
 
             //A계좌에서 1만원 출금, B계좌에 1만원 입금
             developerRepository.save(developer);
-            developerRepository.delete(developer1);
 
-        }
+
     }
 
 }

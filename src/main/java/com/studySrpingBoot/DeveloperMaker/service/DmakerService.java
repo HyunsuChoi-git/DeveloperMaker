@@ -23,21 +23,21 @@ public class DmakerService {
     private final DeveloperRepository developerRepository;
 
     @Transactional
-    public void createDeveloper(CreateDeveloper.Request request){
+    public CreateDeveloper.Response createDeveloper(CreateDeveloper.Request request){
         validateCreateDeveloperRequest(request);
 
         //트랜잭션 시작 business logic start
         Developer developer = Developer.builder()
-                .developerLevel(DeveloperLevel.JUNIOR)
-                .developerSkillType(DeveloperSkillType.FRONT_END)
-                .experienceYear(1)
-                .name("Olaf")
-                .age(5)
+                .developerLevel(request.getDeveloperLevel())
+                .developerSkillType(request.getDeveloperSkillType())
+                .experienceYear(request.getExperienceYears())
+                .name(request.getName())
+                .age(request.getAge())
+                .memberId(request.getMemberId())
                 .build();
 
-        //A계좌에서 1만원 출금, B계좌에 1만원 입금
         developerRepository.save(developer);
-
+        return CreateDeveloper.Response.fromEntity(developer);
 
     }
 

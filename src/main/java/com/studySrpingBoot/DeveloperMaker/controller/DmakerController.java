@@ -28,14 +28,13 @@ public class DmakerController {
     }
 
     @PostMapping("/create-developer")
-    public List<String> createDevelopers(
+    public CreateDeveloper.Response createDevelopers(
             @Valid @RequestBody CreateDeveloper.Request request
             //@Valid어노테이션을 넣어줌으로써 dto에 걸어놨던 데이터검증(Nonnull,Size,Min 등)을 해준다.
             ) {
         log.info("request : "+request);
 
-        dmakerService.createDeveloper(request);
+        return dmakerService.createDeveloper(request);
 
-        return Arrays.asList("snow", "Elsa", "Olaf");
     }
 }

@@ -7,6 +7,8 @@ import com.studySrpingBoot.DeveloperMaker.type.DeveloperSkillType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.transaction.Transactional;
 
 @Service
@@ -19,16 +21,21 @@ public class DmakerService {
 
     @Transactional
     public void createDeveloper(){
-        Developer developer = Developer.builder()
-                .developerLevel(DeveloperLevel.JUNIOR)
-                .developerSkillType(DeveloperSkillType.FRONT_END)
-                .experienceYear(1)
-                .name("Olaf")
-                .age(5)
-                .build();
 
-        //DB에 저장 = 영속화
-        developerRepository.save(developer);
+            //트랜잭션 시작 business logic start
+            Developer developer = Developer.builder()
+                    .developerLevel(DeveloperLevel.JUNIOR)
+                    .developerSkillType(DeveloperSkillType.FRONT_END)
+                    .experienceYear(1)
+                    .name("Olaf")
+                    .age(5)
+                    .build();
+
+            //A계좌에서 1만원 출금, B계좌에 1만원 입금
+            developerRepository.save(developer);
+            developerRepository.delete(developer1);
+
+        }
     }
 
 }

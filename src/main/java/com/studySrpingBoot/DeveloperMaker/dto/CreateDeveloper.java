@@ -1,5 +1,6 @@
 package com.studySrpingBoot.DeveloperMaker.dto;
 
+import com.studySrpingBoot.DeveloperMaker.code.StatusCode;
 import com.studySrpingBoot.DeveloperMaker.entity.Developer;
 import com.studySrpingBoot.DeveloperMaker.type.DeveloperLevel;
 import com.studySrpingBoot.DeveloperMaker.type.DeveloperSkillType;
@@ -35,6 +36,8 @@ public class CreateDeveloper {
         private String name;
         @Min(18)
         private Integer age;
+
+        private StatusCode statusCode=StatusCode.EMPLOYED;
     }
 
     @Getter

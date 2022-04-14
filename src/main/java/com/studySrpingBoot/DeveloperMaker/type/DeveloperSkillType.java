@@ -3,8 +3,8 @@ package com.studySrpingBoot.DeveloperMaker.type;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public enum DeveloperSkillType {
     BACK_END("백앤드 개발자"),
     FRONT_END("프론트앤드 개발자"),

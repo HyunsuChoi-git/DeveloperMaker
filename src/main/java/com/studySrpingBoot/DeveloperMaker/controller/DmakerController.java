@@ -1,16 +1,15 @@
 package com.studySrpingBoot.DeveloperMaker.controller;
 
 import com.studySrpingBoot.DeveloperMaker.dto.CreateDeveloper;
+import com.studySrpingBoot.DeveloperMaker.dto.DeveloperDetailDto;
+import com.studySrpingBoot.DeveloperMaker.dto.DeveloperDto;
+import com.studySrpingBoot.DeveloperMaker.dto.EditDeveloper;
 import com.studySrpingBoot.DeveloperMaker.service.DmakerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
 
 //사용자 입력이 처음 들어오는 곳 Controller
@@ -19,12 +18,26 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class DmakerController {
+
     private final DmakerService dmakerService;
 
     @GetMapping("/developers")
-    public List<String> getAllDevelopers() {
+    public List<DeveloperDto> getAllDevelopers() {
         log.info("GET /developers HTTP/1.1");
-        return Arrays.asList("snow", "Elsa", "Olaf");
+        return dmakerService.getAllEmployedDevelopers();
+    }
+
+    @GetMapping("/developer/{memberId}")
+    public DeveloperDetailDto getDeveloper(
+            @PathVariable String memberId) {
+        return dmakerService.getDeveloper(memberId);
+    }
+
+    @PutMapping("/developer/{memberId}")
+    public  DeveloperDetailDto editDeveloper(
+            @PathVariable String memberId,
+            @Valid @RequestBody EditDeveloper.Request request){
+        return dmakerService.editDeveloper(memberId, request);
     }
 
     @PostMapping("/create-developer")
@@ -37,4 +50,10 @@ public class DmakerController {
         return dmakerService.createDeveloper(request);
 
     }
+
+    @DeleteMapping("developer/{memberId}")
+    public DeveloperDetailDto deleteDeveloper(@PathVariable  String memberId){
+        return dmakerService.deleteCeveloper(memberId);
+    }
+
 }

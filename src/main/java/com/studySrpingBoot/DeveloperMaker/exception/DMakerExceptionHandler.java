@@ -19,8 +19,8 @@ public class DMakerExceptionHandler {
     // 현업에서는 HttpStatus에 딱맞지 않는 에러가 많기 때문에 @ResponseStatus을 쓰기보다는 ErrorResponse에서 코드도 함께 보내준다고 함
     //@ResponseStatus(value = HttpStatus.CONFLICT)
     //이 컨트롤러에서 발생하는 에러를 핸들링 해주는 어노테이션
-    @ExceptionHandler(DMakerExcepion.class)
-    public DMakerErrorResponse handleException(DMakerExcepion e,
+    @ExceptionHandler(DMakerException.class)
+    public DMakerErrorResponse handleException(DMakerException e,
                                                HttpServletRequest request){
         log.error("errorCode: {}, url: {}, message: {}",
                 e.getDMakerErrorCode(), request.getRequestURI(), e.getMessage());

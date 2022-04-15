@@ -1,7 +1,7 @@
 package com.studySrpingBoot.DeveloperMaker.service;
 
 import com.studySrpingBoot.DeveloperMaker.exception.DMakerErrorCode;
-import com.studySrpingBoot.DeveloperMaker.exception.DMakerExcepion;
+import com.studySrpingBoot.DeveloperMaker.exception.DMakerException;
 import com.studySrpingBoot.DeveloperMaker.code.StatusCode;
 import com.studySrpingBoot.DeveloperMaker.dto.CreateDeveloper;
 import com.studySrpingBoot.DeveloperMaker.dto.DeveloperDetailDto;
@@ -36,7 +36,7 @@ public class DmakerService {
     public DeveloperDetailDto getDeveloper(String memberId) {
         return developerRepository.findByMemberId(memberId)
                 .map(DeveloperDetailDto::fromEntity)
-                .orElseThrow(()-> new DMakerExcepion(DMakerErrorCode.NO_DEVELOPER) );
+                .orElseThrow(()-> new DMakerException(DMakerErrorCode.NO_DEVELOPER) );
 
     }
 
@@ -46,7 +46,7 @@ public class DmakerService {
 
         //memberId가 동일한 값이 잇는지 repository에서 체크
         Developer developer = developerRepository.findByMemberId(memberId)
-                .orElseThrow(()-> new DMakerExcepion(DMakerErrorCode.NO_DEVELOPER));
+                .orElseThrow(()-> new DMakerException(DMakerErrorCode.NO_DEVELOPER));
 
         developer.setDeveloperLevel(request.getDeveloperLevel());
         developer.setDeveloperSkillType(request.getDeveloperSkillType());
@@ -85,7 +85,7 @@ public class DmakerService {
 
         // ID 체크
         Developer developer = developerRepository.findByMemberId(memberId)
-                .orElseThrow(()-> new DMakerExcepion(DMakerErrorCode.NO_DEVELOPER));
+                .orElseThrow(()-> new DMakerException(DMakerErrorCode.NO_DEVELOPER));
         // 1. EMPLORED -> RETIRED
         developer.setStatusCode(StatusCode.RETIRED);
         // 2. save into RetiredDeveloper
@@ -106,7 +106,7 @@ public class DmakerService {
         //memberId가 동일한 값이 잇는지 repository에서 체크
         developerRepository.findByMemberId(request.getMemberId())
                 .ifPresent(developer -> {
-                    throw new DMakerExcepion(DMakerErrorCode.DUPLICATED_MEMBER_ID);
+                    throw new DMakerException(DMakerErrorCode.DUPLICATED_MEMBER_ID);
                 });
         //java11부터는 위처럼 if문 사용할 수 있음
 //              Optional<Developer> developer = developerRepository.findByMemberId(request.getMemberId())
@@ -128,14 +128,14 @@ public class DmakerService {
         if(developerLevel == DeveloperLevel.SENIOR
                 && developerYears < 10 ){
             //throw new RuntimeException("SENIOR need 10 years experience.");
-            throw new DMakerExcepion(DMakerErrorCode.LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
+            throw new DMakerException(DMakerErrorCode.LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
         }
         if(developerLevel == DeveloperLevel.JUNGIOR
                 && (developerYears < 4 || developerYears > 10)){
-            throw new DMakerExcepion(DMakerErrorCode.LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
+            throw new DMakerException(DMakerErrorCode.LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
         }
         if(developerLevel == DeveloperLevel.JUNGIOR && developerYears > 4 ){
-            throw new DMakerExcepion(DMakerErrorCode.LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
+            throw new DMakerException(DMakerErrorCode.LEVEL_EXPERIENCE_YEARS_NOT_MATCHED);
         }
     }
 

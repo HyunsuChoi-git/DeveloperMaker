@@ -29,6 +29,4 @@ public class EditDeveloper {
         private Integer experienceYears;
 
     }
-
-
 }

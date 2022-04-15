@@ -1,4 +1,4 @@
-package com.studySrpingBoot.DeveloperMaker.Exception;
+package com.studySrpingBoot.DeveloperMaker.exception;
 
 import lombok.Getter;
 
@@ -22,5 +22,4 @@ public class DMakerExcepion extends RuntimeException{
         this.dMakerErrorCode = errorCode;
         this.detailMessage = detailMessage;
     }
-
 }

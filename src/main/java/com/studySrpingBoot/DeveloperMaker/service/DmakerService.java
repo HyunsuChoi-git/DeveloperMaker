@@ -1,7 +1,7 @@
 package com.studySrpingBoot.DeveloperMaker.service;
 
-import com.studySrpingBoot.DeveloperMaker.Exception.DMakerErrorCode;
-import com.studySrpingBoot.DeveloperMaker.Exception.DMakerExcepion;
+import com.studySrpingBoot.DeveloperMaker.exception.DMakerErrorCode;
+import com.studySrpingBoot.DeveloperMaker.exception.DMakerExcepion;
 import com.studySrpingBoot.DeveloperMaker.code.StatusCode;
 import com.studySrpingBoot.DeveloperMaker.dto.CreateDeveloper;
 import com.studySrpingBoot.DeveloperMaker.dto.DeveloperDetailDto;
@@ -77,6 +77,27 @@ public class DmakerService {
 
     }
 
+
+    @Transactional
+    public DeveloperDetailDto deleteCeveloper(String memberId) {
+        // 1. EMPLORED -> RETIRED
+        // 2. save into RetiredDeveloper
+
+        // ID 체크
+        Developer developer = developerRepository.findByMemberId(memberId)
+                .orElseThrow(()-> new DMakerExcepion(DMakerErrorCode.NO_DEVELOPER));
+        // 1. EMPLORED -> RETIRED
+        developer.setStatusCode(StatusCode.RETIRED);
+        // 2. save into RetiredDeveloper
+        RetiredDeveloper retiredDeveloper = RetiredDeveloper.builder()
+                .memberId(memberId)
+                .name(developer.getName())
+                .build();
+        retiredDeveloperRepository.save(retiredDeveloper);
+        return DeveloperDetailDto.fromEntity(developer);
+    }
+
+    //생성 데이터 검증
     private void validateCreateDeveloperRequest
             (CreateDeveloper.Request request) {
         //business validation
@@ -94,6 +115,7 @@ public class DmakerService {
 //        }
     }
 
+    //수정 데이터 검증
     private void validateEditDeveloperRequest(EditDeveloper.Request request, String memberId) {
         //business validation
         validateDeveloper(request.getDeveloperLevel(), request.getExperienceYears());
@@ -117,22 +139,4 @@ public class DmakerService {
         }
     }
 
-    @Transactional
-    public DeveloperDetailDto deleteCeveloper(String memberId) {
-        // 1. EMPLORED -> RETIRED
-        // 2. save into RetiredDeveloper
-
-        // ID 체크
-        Developer developer = developerRepository.findByMemberId(memberId)
-                .orElseThrow(()-> new DMakerExcepion(DMakerErrorCode.NO_DEVELOPER));
-        // 1. EMPLORED -> RETIRED
-        developer.setStatusCode(StatusCode.RETIRED);
-        // 2. save into RetiredDeveloper
-        RetiredDeveloper retiredDeveloper = RetiredDeveloper.builder()
-                .memberId(memberId)
-                .name(developer.getName())
-                .build();
-        retiredDeveloperRepository.save(retiredDeveloper);
-        return DeveloperDetailDto.fromEntity(developer);
-    }
 }
